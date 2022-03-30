@@ -66,6 +66,7 @@ class PostController extends Controller
         $post = new Post();
         $post->fill($data);
         $post->save();
+        if (array_key_exists('tags', $data)) $post->tags()->attach($data['tags']);
 
         return redirect()->route('admin.posts.show', compact('post', 'categories'));
     }
@@ -121,6 +122,7 @@ class PostController extends Controller
 
 
         $post->update($data);
+        if (array_key_exists('tags', $data)) $post->tags()->sync($data['tags']);
 
         return redirect()->route('admin.posts.index')->with('message', "$post->title modificato con successo");
     }

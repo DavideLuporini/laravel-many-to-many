@@ -29,6 +29,7 @@
                 <th scope="col">ID</th>
                 <th scope="col">TITLE</th>
                 <th scope="col">CATEGORY</th>
+                <th scope="col">TAGS</th>
                 <th scope="col">CONTENT</th>
                 <th scope="col">DATE</th>
                 <th scope="col">FEATURE</th>
@@ -42,6 +43,14 @@
                 <td>
                     <span class="badge badge-{{$post->category->color}}">{{$post->category->label}}</span>
                     
+                </td>
+                <td>
+                    @forelse ($post->tags as $tag)
+                        
+                    <span class="badge badge-{{$tag->label}}">{{$tag->label}}</span>
+                    @empty
+                        NO TAG
+                    @endforelse
                 </td>
                 <td>{{$post->content}}</td>
                 <td>{{$post->created_at}}</td>

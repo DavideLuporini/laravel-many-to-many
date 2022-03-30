@@ -26,12 +26,13 @@
         </div>
 
         <div class="col-12 text-center">
+            <div class="row">
         <div class="h-100 w-100 d-flex justify-content-between align-items-start my-5">
 
             <div class="col-12">
 
                 @foreach($tags as $tag)
-                <span class="custom-control custom-switch d-flex col-2">
+                <span class="custom-control custom-switch d-inline-block ml-4">
                     <input type="checkbox" class="custom-control-input" id="tag-{{$loop->iteration}}" value="{{$tag->id}}" name="tags[]"
                     @if (in_array($tag->id, old('tags' , $posts_tags_id ?? [])))
                     checked
@@ -41,8 +42,8 @@
                 </span>   
                 @endforeach
 
-                <div class=" col-7 form-group my-3">
-                    <label for="category">Category</label>
+                <div class=" col-7 form-group my-3 text-left">
+                    <label class="text-left" for="category">Category</label>
                     <select class="form-control" name="category_id">
                         <option value="">No Category</option>
                         @foreach ($categories as $category)
@@ -53,6 +54,7 @@
                     </select>
                 </div>
             </div>
+        </div>
 
             <hr>
 
