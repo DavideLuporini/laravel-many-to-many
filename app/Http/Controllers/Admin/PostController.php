@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Model\Post;
 use App\Model\Category;
+use App\Model\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -32,8 +33,9 @@ class PostController extends Controller
     {
 
         $post = new Post();
+        $tags = Tag::all();
         $categories = Category::all();
-        return view('admin.posts.create', compact('post', 'categories'));
+        return view('admin.posts.create', compact('post', 'categories', 'tags'));
     }
 
     /**
@@ -49,12 +51,14 @@ class PostController extends Controller
                 'title' => ['required', 'string', 'min:5', 'max:255'],
                 'image' => 'required|string',
                 'content' => 'required|string',
-                'category_id' => 'nullable|exists:categories,id'
+                'category_id' => 'nullable|exists:categories,id',
+                'tags' => 'nullable|exists:tags,id'
             ],
             [
                 'required' => 'Field :attribute is obbligatory!',
                 'title.unique' => "A post called $request->title already exist!",
-                'title.min' => "$request->title must be longer then 5 caracters!"
+                'title.min' => "$request->title must be longer then 5 caracters!",
+                'tags.exists' => 'One of your tags is invalid',
             ]
         );
 
@@ -83,10 +87,12 @@ class PostController extends Controller
      * @param  \App\s  $s
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post, Category $categories)
+    public function edit(Post $post, Category $categories, Tag $tag)
     {
+        $posts_tags_id = $post->tags->pluck('id')->toArray();
         $categories = Category::all();
-        return view('admin.posts.edit', compact('post', 'categories'));
+        $tags = Tag::all();
+        return view('admin.posts.edit', compact('post', 'categories', 'tags', 'posts_tags_id'));
     }
 
     /**

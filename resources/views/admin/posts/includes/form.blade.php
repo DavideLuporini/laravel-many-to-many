@@ -21,38 +21,57 @@
 
         {{-- image --}}
         <label for="image">image</label>
-        <div class="col-12">
+        <div class="col-12 d-flex">
         <input class="w-100" type="text" id="image" name="image" value=""{{ old('image', $post->image) }}">
         </div>
 
         <div class="col-12 text-center">
         <div class="h-100 w-100 d-flex justify-content-between align-items-start my-5">
 
-        <div class="form-group">
-            <label for="category">Category</label>
-            <select class="form-control" name="category_id">
-                <option value="">No Category</option>
-                @foreach ($categories as $category)
-                <option  
-                @if (old('category_id')== $category->id) selected @endif    
-                value="{{$category->id}}">{{$category->label}}</option>
+            <div class="col-12">
+
+                @foreach($tags as $tag)
+                <span class="custom-control custom-switch d-flex col-2">
+                    <input type="checkbox" class="custom-control-input" id="tag-{{$loop->iteration}}" value="{{$tag->id}}" name="tags[]"
+                    @if (in_array($tag->id, old('tags' , $posts_tags_id ?? [])))
+                    checked
+                    @endif
+                    >
+                    <label class="custom-control-label" for="tag-{{$loop->iteration}}">{{$tag->label}}</label>
+                </span>   
                 @endforeach
-            </select>
 
-        </div>
-
-            {{-- button back --}}
-            <div>
-                <a href="{{route('admin.posts.index')}}" class="btn btn-warning align-self-start"><i class="fa-solid fa-arrow-left mx-2"></i>BACK</a>
+                <div class=" col-7 form-group my-3">
+                    <label for="category">Category</label>
+                    <select class="form-control" name="category_id">
+                        <option value="">No Category</option>
+                        @foreach ($categories as $category)
+                        <option  
+                        @if (old('category_id')== $category->id) selected @endif    
+                        value="{{$category->id}}">{{$category->label}}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
 
-            {{-- button send + clear --}}
-            <div>
-                <button type="reset" class="btn btn-danger">clear</button>
-                <button type="submit" class="btn btn-primary mx-3">send</button>
-            </div>
-        </div>
-        </div>
+            <hr>
+
+    </div>
+</div>
+<div class="col-12 d-flex justify-content-between">
+    
+    {{-- button back --}}
+    <div class="col-3">
+
+        <a href="{{route('admin.posts.index')}}" class="btn btn-warning align-self-start"><i class="fa-solid fa-arrow-left mx-2"></i>BACK</a>
+    </div>
+    
+
+    {{-- button send + clear --}}
+    <div class="col-6">
+
+        <button type="reset" class="btn btn-danger">clear</button>
+        <button type="submit" class="btn btn-primary mx-3">send</button>
     </div>
 </form>
 </div>
