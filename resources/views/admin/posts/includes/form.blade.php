@@ -1,9 +1,9 @@
 <div class="col-6">
     @if ($post->exists)
-    <form action="{{ route('admin.posts.update', $post->id) }}" method="POST">
+    <form action="{{ route('admin.posts.update', $post->id) }}" method="POST" enctype="multipart/form-data">
         @method('PUT')
     @else
-        <form action="{{ route('admin.posts.store') }}" method="POST">
+        <form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data">
     @endif
     @csrf
 
@@ -20,10 +20,10 @@
         </div>
 
         {{-- image --}}
-        <label for="image">image</label>
+        {{-- <label for="image">image</label>
         <div class="col-12 d-flex">
-        <input class="w-100" type="text" id="image" name="image" value=""{{ old('image', $post->image) }}">
-        </div>
+        <input class="w-100" type="file" id="image" name="image">
+        </div> --}}
 
         <div class="col-12 text-center">
             <div class="row">

@@ -8,6 +8,11 @@ use App\Model\Category;
 use App\Model\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PubblishedPost;
+
 
 class PostController extends Controller
 {
@@ -49,7 +54,7 @@ class PostController extends Controller
         $request->validate(
             [
                 'title' => ['required', 'string', 'min:5', 'max:255'],
-                'image' => 'required|string',
+                'image' => 'nullable|image', //mimes:jpg, png , pdf --> need this to specify the type of the file
                 'content' => 'required|string',
                 'category_id' => 'nullable|exists:categories,id',
                 'tags' => 'nullable|exists:tags,id'
@@ -62,12 +67,27 @@ class PostController extends Controller
             ]
         );
 
+
         $data = $request->all();
         $post = new Post();
+
+        if (array_key_exists('image', $data)) {
+            $img_url = Storage::put('post_images', $data['image']);
+            $data['image'] = $img_url;
+        }
+
         $post->fill($data);
         $post->save();
+
+        //attach tags
         if (array_key_exists('tags', $data)) $post->tags()->attach($data['tags']);
 
+        //mail
+        $mail = new PubblishedPost();
+        $receiver = Auth::user()->email;
+        Mail::to($receiver)->send($mail);
+
+        //end
         return redirect()->route('admin.posts.show', compact('post', 'categories'));
     }
 
