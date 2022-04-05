@@ -17,8 +17,8 @@
 </style>
 <body>
     
-    <h1>CONGRATULATION! The post :{{$post->title}} èhas been pubblished correctly!</h1>
-    <h2>date : {{$post->getFormattedDate('created_at')}}</h2>
+    <h1>CONGRATULATION! The post :{{$post->title}} has been pubblished correctly!</h1>
+    <h2>date : {{$post->created_at}}</h2>
 
     <h3>Category : {{$post->category->label}}</h3>
 

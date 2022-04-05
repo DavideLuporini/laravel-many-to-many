@@ -2,6 +2,8 @@
 
 namespace App\Mail;
 
+use App\Model\Post;
+
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -17,7 +19,7 @@ class PubblishedPost extends Mailable
      *
      * @return void
      */
-    public function __construct($post)
+    public function __construct(Post $post)
     {
         $this->post = $post;
     }

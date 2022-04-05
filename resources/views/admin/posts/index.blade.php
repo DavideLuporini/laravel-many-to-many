@@ -46,7 +46,6 @@
                 </td>
                 <td>
                     @forelse ($post->tags as $tag)
-                        
                     <span class="badge badge-{{$tag->label}}">{{$tag->label}}</span>
                     @empty
                         NO TAG
